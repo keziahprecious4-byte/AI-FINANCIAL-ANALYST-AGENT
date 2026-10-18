@@ -73,3 +73,13 @@ def underwrite(app):
     if not verify_and_open(app, d):
         d.outcome = "DECLINED"
         d.rationale = explain(app, d); return d
+
+    d.fraud = fraud_score(app)
+    d.log("fraud", f"score {d.fraud:.2f}")
+    if d.fraud >= FRAUD_DECLINE:
+        d.outcome = "DECLINED"; d.log("fraud", "above decline threshold")
+        d.rationale = explain(app, d); return d
+    if d.fraud >= FRAUD_REFER:
+        d.outcome, d.decided_by = "ESCALATED", "human (fraud referral)"
+        d.log("fraud", "above referral threshold -> human review")
+        d.rationale = explain(app, d); return d
