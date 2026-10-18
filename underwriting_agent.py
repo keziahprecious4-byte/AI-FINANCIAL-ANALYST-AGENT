@@ -24,3 +24,12 @@ class Decision:
 
     def log(self, step, detail):
         self.trail.append(f"{step}: {detail}")
+
+#Policy
+APPETITE = {"auto": 500_000, "home": 1_500_000, "life": 1_000_000}
+AGENT_AUTHORITY_LIMIT = 250_000
+FRAUD_REFER = 0.60  #refer to human
+FRAUD_DECLINE = 0.85   
+RISK_ESCALATE = 0.50 
+BASE_RATE = {"auto": 0.012, "home": 0.004, "life": 0.002}
+
