@@ -100,3 +100,8 @@ def underwrite(app):
         d.log("authority", "outside agent authority -> senior underwriter")
         d.rationale = explain(app, d); return d
     d.log("authority", "within agent authority")
+
+    d.outcome = "BOUND"
+    d.log("bind", "policy issued (no human sign-off)")
+    d.rationale = explain(app, d)
+    return d
