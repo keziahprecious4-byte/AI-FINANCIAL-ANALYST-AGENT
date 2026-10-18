@@ -65,3 +65,11 @@ def price_and_terms(app, risk):
     premium = app.limit * BASE_RATE[app.product] * (1 + 2 * risk)
     deductible = 500 if risk < 0.4 else 1500
     return round(premium, 2), deductible
+
+#Agent 
+def underwrite(app):
+    d = Decision(app.id)
+
+    if not verify_and_open(app, d):
+        d.outcome = "DECLINED"
+        d.rationale = explain(app, d); return d
