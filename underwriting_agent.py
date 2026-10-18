@@ -54,4 +54,10 @@ def fraud_score(app):
         s += 0.20
     return min(s, 1.0) 
 
+def risk_score(app):
+    r = 0.15
+    r += 0.12 * min(app.claims_5y, 4)
+    r += (650 - app.credit_score) / 1000 if app.credit_score < 650 else -0.05
+    r += 0.10 if app.age < 25 or app.age > 70 else 0
+    return max(0.0, min(r, 1.0))
    
