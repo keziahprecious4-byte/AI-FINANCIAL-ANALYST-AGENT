@@ -105,3 +105,22 @@ def underwrite(app):
     d.log("bind", "policy issued (no human sign-off)")
     d.rationale = explain(app, d)
     return d
+
+#Demo
+if __name__ == "__main__":
+    samples = [
+        Application("A1", 34, "auto", 60_000, 55_000, 0, 740, True),   # clean - bound
+        Application("A2", 22, "auto", 80_000, 30_000, 2, 580, True),   # risky - escalate
+        Application("A3", 45, "home", 900_000, 90_000, 0, 700, True),  # over authority
+        Application("A4", 50, "life", 400_000, 40_000, 1, 690, False), # doc mismatch - fraud
+        Application("A5", 16, "auto", 20_000, 10_000, 0, 700, True),   # knockout
+        Application("A6", 40, "auto", 900_000, 70_000, 0, 760, True),  # outside appetite
+    ]
+    results = [underwrite(a) for a in samples]
+    for d in results:
+        print(f"\n[{d.app_id}] {d.outcome:<9} decided by: {d.decided_by}")
+        for line in d.trail:
+            print("   -", line)
+    auto = sum(d.decided_by == "agent" and d.outcome == "BOUND" for d in results)
+    print(f"\nSummary: {len(results)} cases | agent-bound without sign-off: {auto} "
+          f"| escalated to humans: {sum(d.outcome == 'ESCALATED' for d in results)}")
