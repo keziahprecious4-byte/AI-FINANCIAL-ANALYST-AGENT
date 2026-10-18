@@ -94,3 +94,9 @@ def underwrite(app):
         d.log("appetite", f"limit exceeds {app.product} appetite")
         d.rationale = explain(app, d); return d
     d.log("appetite", "within appetite & capacity")
+
+    if app.limit > AGENT_AUTHORITY_LIMIT or d.risk >= RISK_ESCALATE:
+        d.outcome, d.decided_by = "ESCALATED", "human (authority limit)"
+        d.log("authority", "outside agent authority -> senior underwriter")
+        d.rationale = explain(app, d); return d
+    d.log("authority", "within agent authority")
