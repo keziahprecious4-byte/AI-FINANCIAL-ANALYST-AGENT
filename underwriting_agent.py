@@ -43,4 +43,15 @@ def verify_and_open(app, d):
        return False
    d.log("verify", "eligible, case opened")
    return True
+
+def fraud_score(app):
+    s = 0.0
+    if not app.docs_consistent:
+        s += 0.55
+    if app.limit > app.income * 8:
+        s += 0.25
+    if app.claims_5y >= 3:
+        s += 0.20
+    return min(s, 1.0) 
+
    
