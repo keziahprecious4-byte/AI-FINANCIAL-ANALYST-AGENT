@@ -33,3 +33,14 @@ FRAUD_DECLINE = 0.85
 RISK_ESCALATE = 0.50 
 BASE_RATE = {"auto": 0.012, "home": 0.004, "life": 0.002}
 
+#Tools
+def verify_and_open(app, d):
+   if app.age < 18 or app.age > 85: 
+       d.log("verify", f"knockout: age {app.age} outside 18-85")
+       return False
+   if app.limit <= 0 or app.income <= 0:
+       d.log("verify", "knockout: invalid limit/income")
+       return False
+   d.log("verify", "eligible, case opened")
+   return True
+   
