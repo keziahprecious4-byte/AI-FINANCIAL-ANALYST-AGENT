@@ -67,6 +67,9 @@ def price_and_terms(app, risk):
     deductible = 500 if risk < 0.4 else 1500
     return round(premium, 2), deductible
 
+def explain(app, d):
+    return f"{d.outcome} by {d.decided_by}. Trail: " + " | ".join(d.trail)
+
 #Agent 
 def underwrite(app):
     d = Decision(app.id)
