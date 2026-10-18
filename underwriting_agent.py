@@ -88,3 +88,9 @@ def underwrite(app):
     d.log("risk", f"score {d.risk:.2f}")
     d.premium, ded = price_and_terms(app, d.risk)
     d.log("price", f"premium EUR {d.premium:,.2f}, deductible EUR {ded}")
+
+    if app.limit > APPETITE[app.product]:
+        d.outcome = "DECLINED"
+        d.log("appetite", f"limit exceeds {app.product} appetite")
+        d.rationale = explain(app, d); return d
+    d.log("appetite", "within appetite & capacity")
