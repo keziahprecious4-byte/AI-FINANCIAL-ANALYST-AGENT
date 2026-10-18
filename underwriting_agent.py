@@ -83,3 +83,8 @@ def underwrite(app):
         d.outcome, d.decided_by = "ESCALATED", "human (fraud referral)"
         d.log("fraud", "above referral threshold -> human review")
         d.rationale = explain(app, d); return d
+
+    d.risk = risk_score(app)
+    d.log("risk", f"score {d.risk:.2f}")
+    d.premium, ded = price_and_terms(app, d.risk)
+    d.log("price", f"premium EUR {d.premium:,.2f}, deductible EUR {ded}")
