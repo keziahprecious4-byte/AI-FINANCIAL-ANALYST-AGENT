@@ -60,4 +60,8 @@ def risk_score(app):
     r += (650 - app.credit_score) / 1000 if app.credit_score < 650 else -0.05
     r += 0.10 if app.age < 25 or app.age > 70 else 0
     return max(0.0, min(r, 1.0))
-   
+
+def price_and_terms(app, risk):
+    premium = app.limit * BASE_RATE[app.product] * (1 + 2 * risk)
+    deductible = 500 if risk < 0.4 else 1500
+    return round(premium, 2), deductible
