@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 @dataclass
 class Application:
     id: str
+    age: int
     product: str
     limit: float 
     income: float
